@@ -1,0 +1,16 @@
+.slick-slide img {
+  margin: auto;
+}
+
+.slide-image {
+  height: 250px;
+  width: 80%;
+}
+
+@media screen and (max-width: 720px) {
+  .slide-image {
+    height: 150px;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
