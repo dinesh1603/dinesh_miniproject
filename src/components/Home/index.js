@@ -4,7 +4,6 @@ import SimpleSlider from '../SimpleSlider'
 import Header from '../Header'
 import Footer from '../Footer'
 import AllRestaurantsSection from '../AllRestaurantsSection'
-import Pagination from '../Pagination'
 
 import './index.css'
 
@@ -23,7 +22,7 @@ const Home = () => {
       <div className="item-sections">
         <AllRestaurantsSection />
       </div>
-      <Pagination />
+
       <Footer />
     </>
   )

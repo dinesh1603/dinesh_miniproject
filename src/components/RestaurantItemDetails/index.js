@@ -3,8 +3,6 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
-import {BiRupee} from 'react-icons/bi'
 import CartContext from '../../context/CartContext'
 
 import Header from '../Header'
@@ -26,6 +24,7 @@ class RestaurantItemDetails extends Component {
     restaurantItemsData: [],
     apiStatus: apiStatusConstants.initial,
     quantity: 1,
+    buttonVisible: true,
   }
 
   componentDidMount() {
@@ -43,7 +42,7 @@ class RestaurantItemDetails extends Component {
     opensAt: data.opens_at,
     location: data.location,
     foodItems: data.food_items,
-    cost: data.cost,
+
     itemRating: data.rating,
   })
 
@@ -70,19 +69,18 @@ class RestaurantItemDetails extends Component {
     const response = await fetch(apiUrl, options)
     if (response.ok) {
       const fetchedData = await response.json()
-      console.log(fetchedData)
-      const updatedData = this.getFormattedData(fetchedData)
 
+      const updatedData = this.getFormattedData(fetchedData)
+      console.log(updatedData)
       const updatedRestaurantItemsData = fetchedData.food_items.map(
         eachItem => ({
-          cuisine: eachItem.cuisine,
-          name: eachItem.name,
+          itemName: eachItem.name,
           imageUrl: eachItem.image_url,
           rating: eachItem.rating,
           cost: eachItem.cost,
         }),
       )
-      console.log(updatedRestaurantItemsData)
+
       this.setState({
         restaurantData: updatedData,
 
@@ -102,7 +100,7 @@ class RestaurantItemDetails extends Component {
       className="products-details-loader-container"
       testid="restaurants-details-loader"
     >
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+      <Loader type="TailSpin" color="#FF8C00#" height="50" width="50" />
     </div>
   )
 
@@ -133,10 +131,15 @@ class RestaurantItemDetails extends Component {
     this.setState(prevState => ({quantity: prevState.quantity + 1}))
   }
 
-  renderProductDetailsView = () => (
+  renderRestaurantDetailsView = () => (
     <CartContext.Consumer>
       {value => {
-        const {restaurantData, quantity, restaurantItemsData} = this.state
+        const {
+          restaurantData,
+          quantity,
+          restaurantItemsData,
+          buttonVisible,
+        } = this.state
         const {
           id,
           name,
@@ -146,15 +149,7 @@ class RestaurantItemDetails extends Component {
           reviewsCount,
           rating,
           location,
-          cost,
         } = restaurantData
-
-        //    const {id, name, cuisine, imageUrl, rating, cost} = restaurantData
-
-        const {addCartItem} = value
-        const onClickAddToCart = () => {
-          addCartItem({...restaurantData, quantity})
-        }
 
         return (
           <div className="product-details-success-view">
@@ -181,96 +176,12 @@ class RestaurantItemDetails extends Component {
                     <p className="cost-for-two">Cost for two</p>
                   </div>
                 </div>
-                {/*
-                <hr className="horizontal-line" />
-                <div className="quantity-container">
-                  <button
-                    type="button"
-                    className="quantity-controller-button"
-                    onClick={this.onDecrementQuantity}
-                    testid="minus"
-                  >
-                    <BsDashSquare className="quantity-controller-icon" />
-                  </button>
-                  <p className="quantity">{quantity}</p>
-                  <button
-                    type="button"
-                    className="quantity-controller-button"
-                    onClick={this.onIncrementQuantity}
-                    testid="plus"
-                  >
-                    <BsPlusSquare className="quantity-controller-icon" />
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  className="button add-to-cart-btn"
-                  onClick={onClickAddToCart}
-                >
-                  ADD TO CART
-                </button>
-*/}
               </div>
             </div>
 
             <ul className="similar-products-list" testid="foodItem">
               {restaurantItemsData.map(eachItem => (
-                <li className="restaurant-item" testid="restaurant-item">
-                  <img
-                    src={eachItem.imageUrl}
-                    className="restaurant-item-image"
-                    alt="restaurant"
-                  />
-                  <div className="restaurent-menu-container">
-                    <p className="restaurant-item-title">{eachItem.name}</p>
-                    <div className="rupee-icon-cost-container">
-                      <BiRupee className="rupee-icon" />
-                      <p className="restaurant-item-cost">{eachItem.cost}</p>
-                    </div>
-                    <div className="restaurant-item-price-rating-container">
-                      <div className="restaurant-item-rating-container">
-                        <img
-                          src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1633148899/star_image_ynmj3g.png"
-                          alt="star"
-                          className="restaurant-item-star"
-                        />
-                        <p className="restaurant-item-rating">
-                          {eachItem.rating}
-                        </p>
-                      </div>
-                    </div>
-                    <button type="button" className="add-button">
-                      ADD
-                    </button>
-
-                    <div className="quantity-container">
-                      <button
-                        type="button"
-                        className="quantity-controller-button"
-                        onClick={this.onDecrementQuantity}
-                        testid="minus"
-                      >
-                        <BsDashSquare className="quantity-controller-icon" />
-                      </button>
-                      <p className="quantity">{quantity}</p>
-                      <button
-                        type="button"
-                        className="quantity-controller-button"
-                        onClick={this.onIncrementQuantity}
-                        testid="plus"
-                      >
-                        <BsPlusSquare className="quantity-controller-icon" />
-                      </button>
-                    </div>
-                    <button
-                      type="button"
-                      className="button add-to-cart-btn"
-                      onClick={onClickAddToCart}
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                </li>
+                <RestaurantItems productDetails={eachItem} key={eachItem.id} />
               ))}
             </ul>
           </div>
@@ -284,7 +195,7 @@ class RestaurantItemDetails extends Component {
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderProductDetailsView()
+        return this.renderRestaurantDetailsView()
       case apiStatusConstants.failure:
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
@@ -382,4 +293,72 @@ export default RestaurantItemDetails
               ))}
             </ul>
 
+
+
+
+
+
+
+
+
+            <ul className="similar-products-list" testid="foodItem">
+              {restaurantItemsData.map(eachItem => (
+                <li className="restaurant-item" testid="restaurant-item">
+                  <img
+                    src={eachItem.imageUrl}
+                    className="restaurant-item-image"
+                    alt="restaurant"
+                  />
+                  <div className="restaurent-menu-container">
+                    <p className="restaurant-item-title">{eachItem.name}</p>
+                    <div className="rupee-icon-cost-container">
+                      <BiRupee className="rupee-icon" />
+                      <p className="restaurant-item-cost">{eachItem.cost}</p>
+                    </div>
+                    <div className="restaurant-item-price-rating-container">
+                      <div className="restaurant-item-rating-container">
+                        <img
+                          src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1633148899/star_image_ynmj3g.png"
+                          alt="star"
+                          className="restaurant-item-star"
+                        />
+                        <p className="restaurant-item-rating">
+                          {eachItem.rating}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="add-button"
+                      onClick={() => {
+                        this.setState({buttonVisible: true})
+                      }}
+                    >
+                      ADD
+                    </button>
+                    {this.setState.buttonVisible ? (
+                      <div className="quantity-container">
+                        <button
+                          type="button"
+                          className="quantity-controller-button"
+                          onClick={this.onDecrementQuantity}
+                          testid="minus"
+                        >
+                          <BsDashSquare className="quantity-controller-icon" />
+                        </button>
+                        <p className="quantity">{quantity}</p>
+                        <button
+                          type="button"
+                          className="quantity-controller-button"
+                          onClick={this.onIncrementQuantity}
+                          testid="plus"
+                        >
+                          <BsPlusSquare className="quantity-controller-icon" />
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </li> key={eachItem.id} 
+              ))}
+            </ul>
             */

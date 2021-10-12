@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-
+import {IoIosArrowBack, IoIosArrowForward} from 'react-icons/io'
 import RestaurantCard from '../RestaurantCard'
 import RestaurantsHeader from '../RestaurantsHeader'
 
@@ -30,10 +30,15 @@ class AllRestaurantsSection extends Component {
     restaurantsList: [],
     apiStatus: apiStatusConstants.initial,
     activeOptionId: sortbyOptions[0].optionId,
+    limit: 10,
+    offset: 0,
   }
 
   componentDidMount() {
     this.getRestaurants()
+
+    this.onClickRightArrow()
+    this.onClickLeftArrow()
   }
 
   getRestaurants = async () => {
@@ -41,14 +46,13 @@ class AllRestaurantsSection extends Component {
       apiStatus: apiStatusConstants.inProgress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const {activeOptionId, data, limit = '10', activePage} = this.state
+    const {activeOptionId, data, limit, activePage, offset} = this.state
 
-    const offset = (activePage - 1) * limit
+    // const {offset} = (activePage - 1) * limit
 
-    //  const apiUrl =     ("const apiUrl = 'https://apis.ccbp.in/restaurants-list?offset=0&limit=9&sort_by_rating=Highest");
+    // const apiUrl ='https://apis.ccbp.in/restaurants-list?offset=0&limit=9&sort_by_rating=Highest'
 
-    const apiUrl =
-      'https://apis.ccbp.in/restaurants-list?offset=0&limit=9&sort_by_rating=Highest'
+    const apiUrl = `https://apis.ccbp.in/restaurants-list?offset=${offset}&limit=${limit}&sort_by_rating=Highest`
 
     const options = {
       headers: {
@@ -95,11 +99,6 @@ class AllRestaurantsSection extends Component {
 
   renderFailureView = () => (
     <div className="restaurents-error-view-container">
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-products-error-view.png"
-        alt="all-products-error"
-        className="restaurents-failure-img"
-      />
       <h1 className="restaurents-failure-heading-text">
         Oops! Something Went Wrong
       </h1>
@@ -132,13 +131,13 @@ class AllRestaurantsSection extends Component {
     ) : (
       <div className="no-restaurents-view">
         <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
+          src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1632989083/OBJECTS_ghm6xj.png"
           className="no-restaurents-img"
           alt="no products"
         />
-        <h1 className="no-restaurents-heading">No Products Found</h1>
+        <h1 className="no-restaurents-heading">No Restaurants Found</h1>
         <p className="no-restaurents-description">
-          We could not find any products. Try other filters.
+          We could not find any restaurant.
         </p>
       </div>
     )
@@ -146,7 +145,7 @@ class AllRestaurantsSection extends Component {
 
   renderLoadingView = () => (
     <div className="restaurents-loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+      <Loader type="TailSpin" color="#FF8C00" height="50" width="50" />
     </div>
   )
 
@@ -165,12 +164,44 @@ class AllRestaurantsSection extends Component {
     }
   }
 
+  onClickRightArrow = () => {
+    this.setState(prevState => ({offset: prevState.offset + 10}))
+    this.getRestaurants()
+  }
+
+  onClickLeftArrow = () => {
+    this.setState(prevState => ({offset: prevState.offset - 10}))
+    this.getRestaurants()
+  }
+
   render() {
     // const {activeCategoryId, searchInput, activeRatingId} = this.state
-
+    const {offset} = this.state
     return (
       <div className="all-restaurents-section">
         {this.renderAllRestaurents()}
+
+        <div className="pagination-container">
+          <button
+            type="button"
+            className="arrow-button"
+            testid="pagination-left-button"
+            onClick={this.onClickLeftArrow}
+          >
+            <IoIosArrowBack />
+          </button>
+          <p className="pagination-description" testid="active-page-number">
+            {offset} of 30
+          </p>
+          <button
+            type="button"
+            className="arrow-button"
+            testid="pagination-right-button"
+            onClick={this.onClickRightArrow}
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
       </div>
     )
   }

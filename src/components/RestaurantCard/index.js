@@ -21,10 +21,8 @@ const RestaurantCard = props => {
               alt="star"
               className="star"
             />
-            <p className="rating">{rating}</p>
-          </div>
-          <div className="restaurent-details">
-            {/* <p className="price">Rs {price}/-</p>  */}
+
+            <p className="restaurant-rating">{rating}</p>
           </div>
         </div>
       </li>

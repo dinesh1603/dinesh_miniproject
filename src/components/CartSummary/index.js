@@ -10,7 +10,7 @@ const CartSummary = () => (
       const {cartList} = value
       let total = 0
       cartList.forEach(eachCartItem => {
-        total += eachCartItem.costForTwo * eachCartItem.quantity
+        total += eachCartItem.cost * eachCartItem.quantity
       })
 
       const onclickEmptyCart = () => {

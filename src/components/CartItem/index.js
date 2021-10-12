@@ -16,9 +16,9 @@ const CartItem = props => (
       const {cartItemDetails} = props
       const {
         id,
-        costForTwo,
+
         cuisine,
-        name,
+        itemName,
         quantity,
         imageUrl,
         cost,
@@ -32,45 +32,89 @@ const CartItem = props => (
       const onRemoveCartItem = () => {
         removeCartItem(id)
       }
-      const totalPrice = costForTwo * quantity
+      const totalPrice = cost * quantity
 
       return (
-        <li className="cart-item">
-          <div className="cart-list-items">
-            <img className="cart-product-image" src={imageUrl} alt={cuisine} />
-            <div className="cart-item-details-container">
-              <div className="cart-product-title-brand-container">
-                <p className="cart-product-title">{cuisine}</p>
-                <p className="cart-product-brand">by {name}</p>
+        <>
+          <li className="cart-item-desktop-view">
+            <div className="cart-list-items">
+              <img
+                className="cart-product-image"
+                src={imageUrl}
+                alt={cuisine}
+              />
+              <div className="cart-item-details-container">
+                <div className="cart-product-title-brand-container">
+                  <p className="cart-product-title">{itemName}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="cart-quantity-container">
-            <button
-              type="button"
-              className="quantity-controller-button"
-              testid="decrement-quantity"
-              onClick={onClickDecrement}
-            >
-              <BsDashSquare color="#52606D" size={12} />
-            </button>
-            <p className="cart-quantity">{quantity}</p>
-            <button
-              type="button"
-              className="quantity-controller-button"
-              testid="increment-quantity"
-              onClick={onClickIncrement}
-            >
-              <BsPlusSquare color="#52606D" size={12} />
-            </button>
-          </div>
-          <div className="total-price-remove-container">
-            <p className="cart-total-price">
-              <BiRupee />
-              {totalPrice}.00
-            </p>
-          </div>
-        </li>
+            <div className="cart-quantity-container">
+              <button
+                type="button"
+                className="quantity-controller-button"
+                testid="decrement-quantity"
+                onClick={onClickDecrement}
+              >
+                <BsDashSquare color="#52606D" size={12} />
+              </button>
+              <p className="cart-quantity">{quantity}</p>
+              <button
+                type="button"
+                className="quantity-controller-button"
+                testid="increment-quantity"
+                onClick={onClickIncrement}
+              >
+                <BsPlusSquare color="#52606D" size={12} />
+              </button>
+            </div>
+            <div className="total-price-remove-container">
+              <p className="cart-total-price">
+                <BiRupee />
+                {totalPrice}.00
+              </p>
+            </div>
+          </li>
+          <li className="cart-item-mobile-view">
+            <div className="cart-list-items">
+              <img
+                className="cart-product-image"
+                src={imageUrl}
+                alt={cuisine}
+              />
+            </div>
+            <div className="cart-item-details-container-mobile-view">
+              <div className="cart-product-title-brand-container">
+                <p className="cart-product-title">{itemName}</p>
+              </div>
+              <div className="cart-quantity-container">
+                <button
+                  type="button"
+                  className="quantity-controller-button"
+                  testid="decrement-quantity"
+                  onClick={onClickDecrement}
+                >
+                  <BsDashSquare color="#52606D" size={12} />
+                </button>
+                <p className="cart-quantity">{quantity}</p>
+                <button
+                  type="button"
+                  className="quantity-controller-button"
+                  testid="increment-quantity"
+                  onClick={onClickIncrement}
+                >
+                  <BsPlusSquare color="#52606D" size={12} />
+                </button>
+              </div>
+              <div className="total-price-remove-container">
+                <p className="cart-total-price">
+                  <BiRupee />
+                  {totalPrice}.00
+                </p>
+              </div>
+            </div>
+          </li>
+        </>
       )
     }}
   </CartContext.Consumer>

@@ -199,3 +199,106 @@
     background-color: #e6f6ff;
   }
 }
+
+.hamburgerIconButton {
+  background-color: transparent;
+  width: 42px;
+  height: 35px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.ModalContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 458px;
+}
+
+@media screen and (min-width: 768px) {
+  .ModalContainer {
+    max-width: 1110px;
+  }
+}
+
+.CloseButton {
+  align-self: flex-end;
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  border: none;
+  margin-top: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.NavLinksList {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  background-color: #ffffff;
+}
+
+.NavLinkItem {
+  list-style-type: none;
+}
+
+.NavLinkContent {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0px;
+  margin-left: 8px;
+  background-color: #ffffff;
+}
+
+@media screen and (min-width: 768px) {
+  .NavLinkContent {
+    font-size: 40px;
+  }
+}
+
+.mobile-nav-list-item {
+  list-style-type: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.popup-content {
+  margin: auto;
+}
+
+.mobile-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.website-mobile-logo {
+  width: 35px;
+  height: 35px;
+}
+
+.website-logo-mobile-heading {
+  font-size: 20px;
+  color: orange;
+  text-decoration: none;
+  list-style-type: none;
+  margin-left: 10px;
+}
+
+.mobile-nav-list-item-button {
+  background-color: orange;
+  border-style: none;
+  border-radius: 5px;
+  color: #ffffff;
+  padding: 10px;
+}
