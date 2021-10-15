@@ -3,7 +3,7 @@ import {BiRupee} from 'react-icons/bi'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import './index.css'
 
-import CartContext from '../../context/CartContext'
+let cartFoodItemsList = []
 
 class RestaurantItems extends Component {
   state = {
@@ -26,80 +26,94 @@ class RestaurantItems extends Component {
   render() {
     const {quantity, showAddButton} = this.state
     // console.log(`props ${this.props}`)
-    const {productDetails} = this.props
+    const {foodItemData} = this.props
+    const {id, name, imageUrl, rating, cost} = foodItemData
+
+    const onClickAdd = () => {
+      const foodItem = {
+        foodId: id,
+        foodCost: cost,
+        fixedCost: cost,
+        foodImageUrl: imageUrl,
+        foodName: name,
+        quantity: 1,
+      }
+
+      cartFoodItemsList = [...cartFoodItemsList, foodItem]
+
+      localStorage.setItem('food_items', JSON.stringify(cartFoodItemsList))
+      const addBtnEl = document.getElementById(`addBtn${id}`)
+      addBtnEl.textContent = 'ADDED'
+      // addBtnEl.disabled = false
+    }
 
     return (
-      <CartContext.Consumer>
-        {value => {
-          const {itemName, imageUrl, rating, cost} = productDetails
-          const {addCartItem} = value
-
-          const onClickAddToCart = () => {
-            this.onIncrementQuantity()
-            addCartItem({...productDetails, quantity})
-          }
-
-          return (
-            <li className="restaurant-item" testid="restaurant-item">
+      <li className="restaurant-item" testid="foodItem">
+        <img src={imageUrl} className="restaurant-item-image" alt={name} />
+        <div className="restaurent-menu-container">
+          <h1 className="restaurant-item-title">{name}</h1>
+          <div className="rupee-icon-cost-container">
+            <BiRupee className="rupee-icon" />
+            <p className="restaurant-item-cost">{cost}</p>
+          </div>
+          <div className="restaurant-item-price-rating-container">
+            <div className="restaurant-item-rating-container">
               <img
-                src={imageUrl}
-                className="restaurant-item-image"
-                alt="restaurant"
+                src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1633148899/star_image_ynmj3g.png"
+                alt="star"
+                className="restaurant-item-star"
               />
-              <div className="restaurent-menu-container">
-                <p className="restaurant-item-title">{itemName}</p>
-                <div className="rupee-icon-cost-container">
-                  <BiRupee className="rupee-icon" />
-                  <p className="restaurant-item-cost">{cost}</p>
-                </div>
-                <div className="restaurant-item-price-rating-container">
-                  <div className="restaurant-item-rating-container">
-                    <img
-                      src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1633148899/star_image_ynmj3g.png"
-                      alt="star"
-                      className="restaurant-item-star"
-                    />
-                    <p className="restaurant-item-rating">{rating}</p>
-                  </div>
-                </div>
+              <p className="restaurant-item-rating">{rating}</p>
+            </div>
+          </div>
 
-                {showAddButton ? (
-                  <div className="quantity-container">
-                    <button
-                      type="button"
-                      className="quantity-controller-button"
-                      onClick={this.onDecrementQuantity}
-                      testid="minus"
-                    >
-                      <BsDashSquare className="quantity-controller-icon" />
-                    </button>
-                    <p className="quantity">{quantity}</p>
-                    <button
-                      type="button"
-                      className="quantity-controller-button"
-                      onClick={onClickAddToCart}
-                      // onClick={this.onIncrementQuantity}
-                      testid="plus"
-                    >
-                      <BsPlusSquare className="quantity-controller-icon" />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="add-button"
-                    onClick={() => {
-                      this.setState({showAddButton: true})
-                    }}
-                  >
-                    ADD
-                  </button>
-                )}
+          {showAddButton ? (
+            <div className="quantity-container">
+              <div className="increment-decrement-container">
+                <button
+                  type="button"
+                  className="quantity-controller-button"
+                  onClick={this.onDecrementQuantity}
+                  testid="decrement-count"
+                >
+                  <BsDashSquare className="quantity-controller-icon" />
+                </button>
+                <p className="quantity" testid="active-count">
+                  {quantity}
+                </p>
+                <button
+                  // id={`addBtn${id}`}
+                  type="button"
+                  className="quantity-controller-button"
+                  onClick={this.onIncrementQuantity}
+                  testid="increment-count"
+                >
+                  <BsPlusSquare className="quantity-controller-icon" />
+                </button>
               </div>
-            </li>
-          )
-        }}
-      </CartContext.Consumer>
+              <button
+                id={`addBtn${id}`}
+                type="button"
+                className="add-to-cart-button"
+                onClick={onClickAdd}
+                testid="increment-count"
+              >
+                Add
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="add-button"
+              onClick={() => {
+                this.setState({showAddButton: true})
+              }}
+            >
+              Add
+            </button>
+          )}
+        </div>
+      </li>
     )
   }
 }

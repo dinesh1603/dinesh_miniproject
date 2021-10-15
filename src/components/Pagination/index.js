@@ -1,26 +1,45 @@
-import {IoIosArrowBack, IoIosArrowForward} from 'react-icons/io'
+import {FaChevronRight, FaChevronLeft} from 'react-icons/fa'
+
 import './index.css'
 
-const Pagination = () => (
-  <div className="pagination-container">
-    <button
-      type="button"
-      className="arrow-button"
-      testid="pagination-left-button"
-    >
-      <IoIosArrowBack />
-    </button>
-    <p className="pagination-description" testid="active-page-number">
-      1 to 20
-    </p>
-    <button
-      type="button"
-      className="arrow-button"
-      testid="pagination-right-button"
-    >
-      <IoIosArrowForward />
-    </button>
-  </div>
-)
+const Pagination = props => {
+  const {firstPage, lastPage, onPaginationButtonClicked} = props
+
+  const rightArrowClick = () => {
+    if (firstPage > 0 && firstPage < lastPage) {
+      const pageNo = firstPage + 1
+      onPaginationButtonClicked(pageNo)
+    }
+  }
+
+  const leftArrowClick = () => {
+    if (firstPage > 1 && firstPage < lastPage + 1) {
+      const pageNo = firstPage - 1
+      onPaginationButtonClicked(pageNo)
+    }
+  }
+
+  return (
+    <div className="pagination-button-container">
+      <button
+        type="button"
+        className="pagination-button"
+        onClick={leftArrowClick}
+        testid="pagination-left-button"
+      >
+        <FaChevronLeft className="pagination-arrow-icons" />
+      </button>
+      <p className="pagination-page-numbers">{`${firstPage} of ${lastPage}`}</p>
+      <button
+        type="button"
+        className="pagination-button"
+        onClick={rightArrowClick}
+        testid="pagination-right-button"
+      >
+        <FaChevronRight className="pagination-arrow-icons" />
+      </button>
+    </div>
+  )
+}
 
 export default Pagination

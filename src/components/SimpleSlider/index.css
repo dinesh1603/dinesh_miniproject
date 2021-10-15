@@ -1,16 +1,24 @@
-.slick-slide img {
-  margin: auto;
+.carousel-container {
+  margin-top: 30px;
+  margin-left: 5%;
+  margin-right: 10%;
+  width: 90%;
 }
 
-.slide-image {
-  height: 250px;
-  width: 80%;
+.carousel-images {
+  width: 100%;
+  height: 150px;
 }
 
-@media screen and (max-width: 720px) {
-  .slide-image {
-    height: 150px;
+@media screen and (min-width: 768px) {
+  .carousel-container {
+    margin-top: 30px;
+    margin-left: 5%;
+    margin-right: 10%;
+    width: 90%;
+  }
+  .carousel-images {
     width: 100%;
-    margin-top: 10px;
+    height: 250px;
   }
 }

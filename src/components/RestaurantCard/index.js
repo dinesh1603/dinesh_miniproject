@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom'
 import './index.css'
 
 const RestaurantCard = props => {
-  const {restaurentData} = props
-  const {cuisine, imageUrl, rating, name, id} = restaurentData
+  const {restaurantListData} = props
+  const {cuisine, imageUrl, rating, name, id} = restaurantListData
 
   return (
     <Link to={`/restaurant/${id}`} className="link-item">

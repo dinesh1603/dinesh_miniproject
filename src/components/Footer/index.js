@@ -22,14 +22,14 @@ const Footer = () => (
       The only thing we are serious about is food. Contact us on
     </p>
 
-    <div className="social-media-container">
+    <div className="social-media-container" testid="foodItem">
       <FaPinterestSquare
-        className="social-icon"
         testid="pintrest-social-icon"
+        className="social-icon"
       />
-      <FaInstagram className="social-icon" testid="instagram-social-icon" />
-      <FaTwitter className="social-icon" testid="twitter-social-icon" />
-      <FaFacebookSquare className="social-icon" testid="facebook-social-icon" />
+      <FaInstagram testid="instagram-social-icon" className="social-icon" />
+      <FaTwitter testid="twitter-social-icon" className="social-icon" />
+      <FaFacebookSquare testid="facebook-social-icon" className="social-icon" />
     </div>
   </div>
 )

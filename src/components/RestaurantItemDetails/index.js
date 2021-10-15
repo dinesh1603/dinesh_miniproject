@@ -3,7 +3,6 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import CartContext from '../../context/CartContext'
 
 import Header from '../Header'
 import Footer from '../Footer'
@@ -46,6 +45,18 @@ class RestaurantItemDetails extends Component {
     itemRating: data.rating,
   })
 
+  getFormattedFoodItemsData = data => {
+    const foodItemsDetails = data.food_items.map(eachItem => ({
+      id: eachItem.id,
+      cost: eachItem.cost,
+      imageUrl: eachItem.image_url,
+      name: eachItem.name,
+      rating: eachItem.rating,
+    }))
+
+    this.setState({restaurantItemsData: foodItemsDetails, isLoading: false})
+  }
+
   getRestaurantData = async () => {
     const {match} = this.props
     const {params} = match
@@ -67,24 +78,16 @@ class RestaurantItemDetails extends Component {
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
+
     if (response.ok) {
       const fetchedData = await response.json()
-
+      this.getFormattedFoodItemsData(fetchedData)
       const updatedData = this.getFormattedData(fetchedData)
       console.log(updatedData)
-      const updatedRestaurantItemsData = fetchedData.food_items.map(
-        eachItem => ({
-          itemName: eachItem.name,
-          imageUrl: eachItem.image_url,
-          rating: eachItem.rating,
-          cost: eachItem.cost,
-        }),
-      )
 
       this.setState({
         restaurantData: updatedData,
 
-        restaurantItemsData: updatedRestaurantItemsData,
         apiStatus: apiStatusConstants.success,
       })
     }
@@ -97,8 +100,8 @@ class RestaurantItemDetails extends Component {
 
   renderLoadingView = () => (
     <div
-      className="products-details-loader-container"
       testid="restaurants-details-loader"
+      className="products-details-loader-container"
     >
       <Loader type="TailSpin" color="#FF8C00#" height="50" width="50" />
     </div>
@@ -120,75 +123,61 @@ class RestaurantItemDetails extends Component {
     </div>
   )
 
-  onDecrementQuantity = () => {
-    const {quantity} = this.state
-    if (quantity > 1) {
-      this.setState(prevState => ({quantity: prevState.quantity - 1}))
-    }
-  }
+  renderRestaurantDetailsView = () => {
+    const {
+      restaurantData,
+      quantity,
+      restaurantItemsData,
+      buttonVisible,
+    } = this.state
 
-  onIncrementQuantity = () => {
-    this.setState(prevState => ({quantity: prevState.quantity + 1}))
-  }
+    const {
+      id,
+      name,
+      cuisine,
+      costForTwo,
+      imageUrl,
+      reviewsCount,
+      rating,
+      location,
+    } = restaurantData
 
-  renderRestaurantDetailsView = () => (
-    <CartContext.Consumer>
-      {value => {
-        const {
-          restaurantData,
-          quantity,
-          restaurantItemsData,
-          buttonVisible,
-        } = this.state
-        const {
-          id,
-          name,
-          cuisine,
-          costForTwo,
-          imageUrl,
-          reviewsCount,
-          rating,
-          location,
-        } = restaurantData
-
-        return (
-          <div className="product-details-success-view">
-            <div className="product-details-container">
-              <img src={imageUrl} alt="restaurant" className="product-image" />
-              <div className="product">
-                <h1 className="product-name">{name}</h1>
-                <p className="cuisine-description">{cuisine}</p>
-                <p className="location">{location}</p>
-                <div className="review-and-cost-container">
-                  <div className="rating-and-reviews-count">
-                    <div className="rating-container">
-                      <img
-                        src="https://assets.ccbp.in/frontend/react-js/star-img.png"
-                        alt="star"
-                        className="star"
-                      />
-                      <p className="rating">{rating}</p>
-                    </div>
-                    <p className="reviews-count">{reviewsCount} Reviews</p>
-                  </div>
-                  <div className="cost-container">
-                    <p className="price-details">Rs {costForTwo}/-</p>
-                    <p className="cost-for-two">Cost for two</p>
-                  </div>
+    return (
+      <div className="product-details-success-view">
+        <div className="product-details-container">
+          <img src={imageUrl} alt={name} className="product-image" />
+          <div className="product">
+            <h1 className="product-name">{name}</h1>
+            <p className="cuisine-description">{cuisine}</p>
+            <p className="location">{location}</p>
+            <div className="review-and-cost-container">
+              <div className="rating-and-reviews-count">
+                <div className="rating-container">
+                  <img
+                    src="https://assets.ccbp.in/frontend/react-js/star-img.png"
+                    alt="star"
+                    className="star"
+                  />
+                  <p className="rating">{rating}</p>
                 </div>
+                <p className="reviews-count">{reviewsCount} Reviews</p>
+              </div>
+              <div className="cost-container">
+                <p className="price-details">Rs {costForTwo}/-</p>
+                <p className="cost-for-two">Cost for two</p>
               </div>
             </div>
-
-            <ul className="similar-products-list" testid="foodItem">
-              {restaurantItemsData.map(eachItem => (
-                <RestaurantItems productDetails={eachItem} key={eachItem.id} />
-              ))}
-            </ul>
           </div>
-        )
-      }}
-    </CartContext.Consumer>
-  )
+        </div>
+
+        <ul className="similar-products-list" testid="foodItem">
+          {restaurantItemsData.map(eachItem => (
+            <RestaurantItems foodItemData={eachItem} key={eachItem.id} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
 
   renderRestaurantDetails = () => {
     const {apiStatus} = this.state

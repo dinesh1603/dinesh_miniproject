@@ -1,20 +1,36 @@
-.pagination-container {
+.pagination-button-container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-}
-.arrow-button {
-  background-color: #ffffff;
-  border-radius: 5px;
-  color: black;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  margin-left: 10px;
+
+  margin-bottom: 30px;
 }
 
-.pagination-description {
-  color: black;
+.pagination-button {
+  height: 32px;
+  width: 32px;
+
+  background-color: transparent;
+  border: 1px solid #334155;
+
+  cursor: pointer;
+}
+
+.pagination-page-numbers {
+  font-family: Bree Serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 27px;
+
+  color: #334155;
+
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.pagination-arrow-icons {
+  height: 16px;
+  width: 16px;
+  color: #334155;
 }

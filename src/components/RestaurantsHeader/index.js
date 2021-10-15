@@ -1,41 +1,88 @@
-import {BsFilterRight} from 'react-icons/bs'
+import {BsFilterLeft, BsFillCaretDownFill} from 'react-icons/bs'
+
+import {FaCheck} from 'react-icons/fa'
 
 import './index.css'
 
+const onLowest = 'lowest'
+
+const onHighest = 'highest'
+
 const RestaurantsHeader = props => {
-  const onChangeSortby = event => {
-    const {updateActiceOptionId} = props
-    updateActiceOptionId(event.target.value)
+  const {onSortOptionsSelected} = props
+
+  const onSortByClicked = () => {
+    const sortBySelectOptionsEl = document.getElementById('sortBySelectOptions')
+
+    sortBySelectOptionsEl.classList.toggle(
+      'restaurant-header-sort-options-container-hide',
+    )
   }
 
-  const {sortbyOptions, activeOptionId} = props
+  const onClickLowest = () => {
+    const checkIconLowestEl = document.getElementById('checkIconLowest')
+    const checkIconHighestEl = document.getElementById('checkIconHighest')
+
+    checkIconLowestEl.classList.add('check-icon')
+    checkIconHighestEl.classList.remove('check-icon')
+
+    onSortOptionsSelected(onLowest)
+  }
+
+  const onClickHighest = () => {
+    const checkIconLowestEl = document.getElementById('checkIconLowest')
+    const checkIconHighestEl = document.getElementById('checkIconHighest')
+
+    checkIconHighestEl.classList.add('check-icon')
+    checkIconLowestEl.classList.remove('check-icon')
+
+    onSortOptionsSelected(onHighest)
+  }
+
   return (
-    <div className="restaurents-header">
-      <div className="restaurents-head">
-        <h1 className="restaurents-list-heading">Popular Restaurents</h1>
-        <p className="header-description">
-          Select your favorite Restaurents special dish and make your day
-          happy...
-        </p>
+    <div className="restaurant-list-header-container">
+      <div className="restaurant-list-header-sortby-container">
+        <div>
+          <h1 className="restaurant-list-header-heading">
+            Popular Restaurants
+          </h1>
+          <p className="restaurant-list-header-description">
+            Select Your favourite restaurant special dish and make your day
+            happy..
+          </p>
+        </div>
+        <div className="sort-by-container">
+          <button
+            type="button"
+            className="restaurant-list-header-button"
+            onClick={onSortByClicked}
+          >
+            <BsFilterLeft className="filter-icon" />
+            <p className="restaurant-list-header-sort-by-text">Sort By</p>
+            <BsFillCaretDownFill className="downfill-icon" />
+          </button>
+        </div>
       </div>
-      <div className="sort-by-container">
-        <BsFilterRight className="sort-by-icon" />
-        <p className="sort-by">Sort by</p>
-        <select
-          className="sort-by-select"
-          value={activeOptionId}
-          onChange={onChangeSortby}
+      <div
+        id="sortBySelectOptions"
+        className="restaurant-header-sort-options-container restaurant-header-sort-options-container-hide"
+      >
+        <button
+          type="button"
+          className="restaurant-header-sort-options-button"
+          onClick={onClickLowest}
         >
-          {sortbyOptions.map(eachOption => (
-            <option
-              key={eachOption.optionId}
-              value={eachOption.optionId}
-              className="select-option"
-            >
-              {eachOption.displayText}
-            </option>
-          ))}
-        </select>
+          Lowest
+          <FaCheck id="checkIconLowest" className="check-icon-hide" />
+        </button>
+        <button
+          type="button"
+          className="restaurant-header-sort-options-button"
+          onClick={onClickHighest}
+        >
+          Highest
+          <FaCheck id="checkIconHighest" className="check-icon-hide" />
+        </button>
       </div>
     </div>
   )

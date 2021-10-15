@@ -15,7 +15,14 @@
   .all-restaurents-container {
     margin-left: 30px;
     width: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
   }
+}
+
+.restaurant-header {
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .products-heading {
@@ -197,4 +204,22 @@
 
 .pagination-description {
   color: black;
+}
+
+.restaurant-list-item-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+.header-container {
+  width: 100%;
+  justify-content: center;
+  margin-left: 5%;
+  margin-right: 5%;
 }

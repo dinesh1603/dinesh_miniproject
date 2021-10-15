@@ -38,16 +38,16 @@ const Header = props => {
     <nav className="nav-header">
       <div className="nav-content">
         <div className="nav-bar-mobile-logo-container">
-          <Link to="/">
-            <div className="mobile-logo-container">
+          <div className="mobile-logo-container">
+            <Link to="/">
               <img
                 className="website-mobile-logo"
                 src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1632986851/Tasty_Kitchen_lc3zjq.png"
                 alt="website logo"
               />
-              <h1 className="website-logo-mobile-heading">Tasty Kitchen</h1>
-            </div>
-          </Link>
+            </Link>
+            <h1 className="website-logo-mobile-heading">Tasty Kitchen</h1>
+          </div>
 
           <button
             type="button"
@@ -60,7 +60,7 @@ const Header = props => {
         </div>
         {show ? (
           <div className="ModalContainer">
-            <div className="NavLinksList">
+            <ul className="NavLinksList">
               <li className="mobile-nav-list-item">
                 <Link to="/" className="nav-link">
                   Home
@@ -79,7 +79,7 @@ const Header = props => {
               >
                 Logout
               </button>
-            </div>
+            </ul>
             <button
               className="CloseButton"
               type="button"
@@ -91,16 +91,17 @@ const Header = props => {
           </div>
         ) : null}
         <div className="nav-bar-large-container">
-          <Link to="/">
-            <div className="logo-container">
+          <div className="logo-container">
+            <Link to="/">
               <img
                 className="website-logo"
                 src="https://res.cloudinary.com/dh4d9iuty/image/upload/v1632986851/Tasty_Kitchen_lc3zjq.png"
                 alt="website logo"
               />
-              <h1 className="website-logo-heading">Tasty Kitchen</h1>
-            </div>
-          </Link>
+            </Link>
+            <h1 className="website-logo-heading">Tasty Kitchen</h1>
+          </div>
+
           <ul className="nav-menu">
             <li className="nav-menu-item">
               <Link to="/" className="nav-link">
