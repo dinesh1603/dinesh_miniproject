@@ -126,9 +126,8 @@ class RestaurantItemDetails extends Component {
   renderRestaurantDetailsView = () => {
     const {
       restaurantData,
-      quantity,
+
       restaurantItemsData,
-      buttonVisible,
     } = this.state
 
     const {

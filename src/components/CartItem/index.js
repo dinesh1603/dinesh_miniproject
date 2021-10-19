@@ -5,6 +5,7 @@ import {FaRupeeSign} from 'react-icons/fa'
 // import {BiRupee} from 'react-icons/bi'
 
 import './index.css'
+import EmptyCartView from '../EmptyCartView'
 
 class CartItem extends Component {
   onIncrease = () => {

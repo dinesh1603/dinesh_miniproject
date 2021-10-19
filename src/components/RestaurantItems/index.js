@@ -25,11 +25,15 @@ class RestaurantItems extends Component {
 
   render() {
     const {quantity, showAddButton} = this.state
+    // console.log(`quantity ${quantity}`)
+
     // console.log(`props ${this.props}`)
     const {foodItemData} = this.props
     const {id, name, imageUrl, rating, cost} = foodItemData
 
     const onClickAdd = () => {
+      this.setState({showAddButton: true})
+
       const foodItem = {
         foodId: id,
         foodCost: cost,
@@ -43,7 +47,7 @@ class RestaurantItems extends Component {
 
       localStorage.setItem('food_items', JSON.stringify(cartFoodItemsList))
       const addBtnEl = document.getElementById(`addBtn${id}`)
-      addBtnEl.textContent = 'ADDED'
+      addBtnEl.textContent = 'Add'
       // addBtnEl.disabled = false
     }
 
@@ -82,7 +86,6 @@ class RestaurantItems extends Component {
                   {quantity}
                 </p>
                 <button
-                  // id={`addBtn${id}`}
                   type="button"
                   className="quantity-controller-button"
                   onClick={this.onIncrementQuantity}
@@ -91,7 +94,8 @@ class RestaurantItems extends Component {
                   <BsPlusSquare className="quantity-controller-icon" />
                 </button>
               </div>
-              <button
+
+              {/* <button
                 id={`addBtn${id}`}
                 type="button"
                 className="add-to-cart-button"
@@ -100,14 +104,15 @@ class RestaurantItems extends Component {
               >
                 Add
               </button>
+            
+            */}
             </div>
           ) : (
             <button
               type="button"
+              id={`addBtn${id}`}
               className="add-button"
-              onClick={() => {
-                this.setState({showAddButton: true})
-              }}
+              onClick={onClickAdd}
             >
               Add
             </button>

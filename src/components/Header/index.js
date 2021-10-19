@@ -4,7 +4,6 @@ import {useState} from 'react'
 import Cookies from 'js-cookie'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {IoMdClose} from 'react-icons/io'
-import CartContext from '../../context/CartContext'
 
 import './index.css'
 
@@ -16,23 +15,6 @@ const Header = props => {
     Cookies.remove('jwt_token')
     history.replace('/login')
   }
-
-  const renderCartItemsCount = () => (
-    <CartContext.Consumer>
-      {value => {
-        const {cartList} = value
-        const cartItemsCount = cartList.length
-
-        return (
-          <>
-            {cartItemsCount > 0 ? (
-              <span className="cart-count-badge">{cartList.length}</span>
-            ) : null}
-          </>
-        )
-      }}
-    </CartContext.Consumer>
-  )
 
   return (
     <nav className="nav-header">
@@ -69,7 +51,6 @@ const Header = props => {
               <li className="mobile-nav-list-item">
                 <Link to="/cart" className="nav-link">
                   Cart
-                  {renderCartItemsCount()}
                 </Link>
               </li>
               <button
@@ -112,7 +93,6 @@ const Header = props => {
             <li className="nav-menu-item">
               <Link to="/cart" className="nav-link">
                 Cart
-                {renderCartItemsCount()}
               </Link>
             </li>
           </ul>
